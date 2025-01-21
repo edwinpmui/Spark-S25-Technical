@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 import './css/AddChore.css';
 
 const AddChore = ({ addChore }) => {
@@ -8,6 +11,7 @@ const AddChore = ({ addChore }) => {
     const [assignedTo, setAssignedTo] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [nextOccurrence, setNextOccurrence] = useState('');
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,18 +19,19 @@ const AddChore = ({ addChore }) => {
         setDateCreated(today);
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newChore = {
-            id: Date.now(),
             title,
             description,
             assignedTo: [assignedTo],
             dateCreated,
             nextOccurrence,
             completed: false,
+            userId: currentUser.uid,
         };
-        addChore(newChore);
+        const docRef = await addDoc(collection(db, 'chores'), newChore);
+        addChore({ id: docRef.id, ...newChore });
         navigate('/');
     };
 

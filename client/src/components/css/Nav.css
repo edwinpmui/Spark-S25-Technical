@@ -1,6 +1,9 @@
 .nav {
     background-color: #333;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .nav ul {
@@ -8,8 +11,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 10px;
 }
 
 .nav li {
@@ -23,7 +25,12 @@
     border-radius: 4px;
 }
 
-.add-chore-button {
+.nav a:hover {
+    background-color: #575757;
+}
+
+.add-chore-button,
+.logout-button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -32,6 +39,17 @@
     cursor: pointer;
 }
 
-.add-chore-button:hover {
+.add-chore-button:hover,
+.logout-button:hover {
     background-color: #45a049;
+}
+
+.nav-left {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-right {
+    display: flex;
+    gap: 10px;
 }
