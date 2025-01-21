@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './css/ChoreCard.css'
+import { useAuth } from '../contexts/AuthContext';
 
 const ChoreCard = ({ title, description, assignedPersons = [], dateCreated, nextOccurrence, completed, toggleCompletion, deleteChore }) => {
+    const { currentUser } = useAuth();
     const [isCompleted, setIsCompleted] = useState(completed);
     const [completedBy, setCompletedBy] = useState('');
     const [daysUntilNext, setDaysUntilNext] = useState(0);
@@ -10,7 +11,7 @@ const ChoreCard = ({ title, description, assignedPersons = [], dateCreated, next
         setIsCompleted(!isCompleted);
         toggleCompletion();
         if (!isCompleted) {
-            setCompletedBy('User'); // Replace 'User' with the actual user completing the chore
+            setCompletedBy(currentUser ? currentUser.email : 'User');
         } else {
             setCompletedBy('');
         }
